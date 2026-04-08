@@ -17,15 +17,15 @@ const FRAMES: FrameConfig[] = [
     // Valentine frame (black bg) - windows are higher and shorter
     src: '/frames/Frame Photo Booth Web (1) (1).png',
     slots: {
-      top:    { top: '7.5%', height: '25%', left: '7%', right: '7%' },
-      bottom: { top: '41%', height: '25%', left: '7%', right: '7%' },
+      top: { top: '7.5%', height: '40%', left: '7%', right: '7%' },
+      bottom: { top: '41%', height: '40%', left: '7%', right: '7%' },
     }
   },
   {
     // Frame 1 - "Tự tin mọi lúc" text at TOP, closeup logo at BOTTOM
     src: '/frames/Đã xóa nền - Frame 1.png',
     slots: {
-      top:    { top: '11%', height: '30%', left: '7%', right: '7%' },
+      top: { top: '11%', height: '30%', left: '7%', right: '7%' },
       bottom: { top: '49%', height: '30%', left: '7%', right: '7%' },
     }
   },
@@ -33,7 +33,7 @@ const FRAMES: FrameConfig[] = [
     // Frame 2 - green bg, closeup at TOP, "Tự tin mọi lúc" at BOTTOM
     src: '/frames/Đã xóa nền - Frame 2.png',
     slots: {
-      top:    { top: '12%', height: '28%', left: '5%', right: '5%' },
+      top: { top: '12%', height: '28%', left: '5%', right: '5%' },
       bottom: { top: '48%', height: '28%', left: '5%', right: '5%' },
     }
   },
@@ -41,7 +41,7 @@ const FRAMES: FrameConfig[] = [
     // Frame 3 - blue border, closeup at TOP, "Tự tin mọi lúc" at BOTTOM
     src: '/frames/Đã xóa nền - Frame 3.png',
     slots: {
-      top:    { top: '11%', height: '29%', left: '10%', right: '10%' },
+      top: { top: '11%', height: '29%', left: '10%', right: '10%' },
       bottom: { top: '48%', height: '29%', left: '10%', right: '10%' },
     }
   }
@@ -78,7 +78,7 @@ function App() {
       }
     }
   };
-  
+
   const handlePhotosTaken = (capturedPhotos: string[]) => {
     setPhotos(capturedPhotos);
     setAppState('PREVIEW');
@@ -95,10 +95,10 @@ function App() {
       <div className="camera-icon-wrapper">
         <Camera size={64} />
       </div>
-      
+
       <div className="app-subtitle">CLOSEUP X PHOTOBOOTH</div>
-      
-      <h1 className="title-main">Tự tin<br/>gần nhau hơn!</h1>
+
+      <h1 className="title-main">Tự tin<br />gần nhau hơn!</h1>
       <p className="title-sub">Chụp ảnh cực chất cùng Closeup</p>
 
       <div className="cards-row">
@@ -118,7 +118,7 @@ function App() {
 
       <button className="btn-primary" onClick={() => {
         if (!isPlaying && audioRef.current) {
-          audioRef.current.play().then(() => setIsPlaying(true)).catch(()=> {});
+          audioRef.current.play().then(() => setIsPlaying(true)).catch(() => { });
         }
         setAppState('FRAME_SELECT');
       }}>
@@ -134,15 +134,15 @@ function App() {
   const renderFrameSelect = () => (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
       <h2 style={{ fontSize: '2rem', marginBottom: '2rem' }}>Chọn Frame Yêu Thích</h2>
-      
+
       <div className="frame-grid">
         {FRAMES.map((f, i) => (
-          <div 
-            key={i} 
+          <div
+            key={i}
             className={`frame-option ${selectedFrame?.src === f.src ? 'selected' : ''}`}
             onClick={() => setSelectedFrame(f)}
           >
-            <img src={f.src} alt={`Frame ${i+1}`} />
+            <img src={f.src} alt={`Frame ${i + 1}`} />
           </div>
         ))}
       </div>
@@ -151,8 +151,8 @@ function App() {
         <button className="btn-secondary" onClick={() => setAppState('HOME')}>
           Trở lại
         </button>
-        <button 
-          className="btn-primary" 
+        <button
+          className="btn-primary"
           style={{ width: 'auto', padding: '1rem 3rem' }}
           disabled={!selectedFrame}
           onClick={() => setAppState('CAMERA')}
@@ -173,13 +173,13 @@ function App() {
       <div className="meteor meteor-6"></div>
 
       <audio ref={audioRef} src="/bgm.mp3" loop />
-      
-      <button 
-        onClick={toggleMusic} 
-        style={{ 
-          position: 'fixed', top: '1rem', right: '1rem', zIndex: 100, 
-          background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.4)', 
-          backdropFilter: 'blur(10px)', color: 'white', padding: '10px', 
+
+      <button
+        onClick={toggleMusic}
+        style={{
+          position: 'fixed', top: '1rem', right: '1rem', zIndex: 100,
+          background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.4)',
+          backdropFilter: 'blur(10px)', color: 'white', padding: '10px',
           borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center'
         }}
       >
@@ -190,19 +190,19 @@ function App() {
         {appState === 'HOME' && renderHome()}
         {appState === 'FRAME_SELECT' && renderFrameSelect()}
         {appState === 'CAMERA' && (
-          <CameraScreen 
+          <CameraScreen
             frameSrc={selectedFrame!.src}
             slotPositions={selectedFrame!.slots}
-            onPhotosTaken={handlePhotosTaken} 
+            onPhotosTaken={handlePhotosTaken}
             onBack={() => setAppState('FRAME_SELECT')}
           />
         )}
         {appState === 'PREVIEW' && (
-          <StripPreview 
+          <StripPreview
             frameSrc={selectedFrame!.src}
             slotPositions={selectedFrame!.slots}
-            photos={photos} 
-            onReset={resetFlow} 
+            photos={photos}
+            onReset={resetFlow}
             onRetake={() => { setPhotos([]); setAppState('CAMERA'); }}
           />
         )}
