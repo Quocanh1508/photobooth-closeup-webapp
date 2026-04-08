@@ -18,7 +18,7 @@ const FRAMES: FrameConfig[] = [
     src: '/frames/Frame Photo Booth Web (1) (1).png',
     slots: {
       top: { top: '7.5%', height: '40%', left: '7%', right: '7%' },
-      bottom: { top: '41%', height: '40%', left: '7%', right: '7%' },
+      bottom: { top: '41%', height: '41%', left: '7%', right: '7%' },
     }
   },
   {
