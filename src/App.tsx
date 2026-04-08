@@ -14,11 +14,11 @@ interface FrameConfig {
 
 const FRAMES: FrameConfig[] = [
   {
-    // Valentine frame (black bg) - windows are larger and more centered
+    // Valentine frame (black bg) - windows are higher and shorter
     src: '/frames/Frame Photo Booth Web (1) (1).png',
     slots: {
-      top:    { top: '10%', height: '30%', left: '7%', right: '7%' },
-      bottom: { top: '50%', height: '30%', left: '7%', right: '7%' },
+      top:    { top: '7.5%', height: '25%', left: '7%', right: '7%' },
+      bottom: { top: '41%', height: '25%', left: '7%', right: '7%' },
     }
   },
   {
