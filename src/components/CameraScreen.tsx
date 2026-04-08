@@ -69,6 +69,7 @@ export const CameraScreen: React.FC<CameraScreenProps> = ({ frameSrc, onPhotosTa
               <Webcam
                 audio={false}
                 ref={webcamRef}
+                mirrored={true}
                 screenshotFormat="image/jpeg"
                 videoConstraints={{ width: 720, height: 1080, facingMode: "user" }}
                 className="camera-feed"
@@ -84,6 +85,7 @@ export const CameraScreen: React.FC<CameraScreenProps> = ({ frameSrc, onPhotosTa
               <Webcam
                 audio={false}
                 ref={webcamRef}
+                mirrored={true}
                 screenshotFormat="image/jpeg"
                 videoConstraints={{ width: 720, height: 1080, facingMode: "user" }}
                 className="camera-feed"
