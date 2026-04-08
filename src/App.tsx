@@ -4,18 +4,54 @@ import { Camera, Palette, Image as ImageIcon, Download, Zap, Volume2, VolumeX } 
 import { CameraScreen } from './components/CameraScreen';
 import { StripPreview } from './components/StripPreview';
 
-const FRAMES = [
-  '/frames/Frame Photo Booth Web (1) (1).png',
-  '/frames/Đã xóa nền - Frame 1.png',
-  '/frames/Đã xóa nền - Frame 2.png',
-  '/frames/Đã xóa nền - Frame 3.png'
+interface FrameConfig {
+  src: string;
+  slots: {
+    top: { top: string; height: string; left: string; right: string };
+    bottom: { top: string; height: string; left: string; right: string };
+  };
+}
+
+const FRAMES: FrameConfig[] = [
+  {
+    // Valentine frame (black bg) - windows are larger and more centered
+    src: '/frames/Frame Photo Booth Web (1) (1).png',
+    slots: {
+      top:    { top: '10%', height: '30%', left: '7%', right: '7%' },
+      bottom: { top: '50%', height: '30%', left: '7%', right: '7%' },
+    }
+  },
+  {
+    // Frame 1 - "Tự tin mọi lúc" text at TOP, closeup logo at BOTTOM
+    src: '/frames/Đã xóa nền - Frame 1.png',
+    slots: {
+      top:    { top: '11%', height: '30%', left: '7%', right: '7%' },
+      bottom: { top: '49%', height: '30%', left: '7%', right: '7%' },
+    }
+  },
+  {
+    // Frame 2 - green bg, closeup at TOP, "Tự tin mọi lúc" at BOTTOM
+    src: '/frames/Đã xóa nền - Frame 2.png',
+    slots: {
+      top:    { top: '12%', height: '28%', left: '5%', right: '5%' },
+      bottom: { top: '48%', height: '28%', left: '5%', right: '5%' },
+    }
+  },
+  {
+    // Frame 3 - blue border, closeup at TOP, "Tự tin mọi lúc" at BOTTOM
+    src: '/frames/Đã xóa nền - Frame 3.png',
+    slots: {
+      top:    { top: '11%', height: '29%', left: '10%', right: '10%' },
+      bottom: { top: '48%', height: '29%', left: '10%', right: '10%' },
+    }
+  }
 ];
 
 type AppState = 'HOME' | 'FRAME_SELECT' | 'CAMERA' | 'PREVIEW';
 
 function App() {
   const [appState, setAppState] = useState<AppState>('HOME');
-  const [selectedFrame, setSelectedFrame] = useState<string>('');
+  const [selectedFrame, setSelectedFrame] = useState<FrameConfig | null>(null);
   const [photos, setPhotos] = useState<string[]>([]);
 
   // Music state
@@ -51,7 +87,7 @@ function App() {
   const resetFlow = () => {
     setAppState('HOME');
     setPhotos([]);
-    setSelectedFrame('');
+    setSelectedFrame(null);
   };
 
   const renderHome = () => (
@@ -103,10 +139,10 @@ function App() {
         {FRAMES.map((f, i) => (
           <div 
             key={i} 
-            className={`frame-option ${selectedFrame === f ? 'selected' : ''}`}
+            className={`frame-option ${selectedFrame?.src === f.src ? 'selected' : ''}`}
             onClick={() => setSelectedFrame(f)}
           >
-            <img src={f} alt={`Frame ${i+1}`} />
+            <img src={f.src} alt={`Frame ${i+1}`} />
           </div>
         ))}
       </div>
@@ -155,14 +191,16 @@ function App() {
         {appState === 'FRAME_SELECT' && renderFrameSelect()}
         {appState === 'CAMERA' && (
           <CameraScreen 
-            frameSrc={selectedFrame} 
+            frameSrc={selectedFrame!.src}
+            slotPositions={selectedFrame!.slots}
             onPhotosTaken={handlePhotosTaken} 
             onBack={() => setAppState('FRAME_SELECT')}
           />
         )}
         {appState === 'PREVIEW' && (
           <StripPreview 
-            frameSrc={selectedFrame}
+            frameSrc={selectedFrame!.src}
+            slotPositions={selectedFrame!.slots}
             photos={photos} 
             onReset={resetFlow} 
             onRetake={() => { setPhotos([]); setAppState('CAMERA'); }}

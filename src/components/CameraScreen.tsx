@@ -5,15 +5,20 @@ import { Camera, ArrowLeft, Upload, Check, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import getCroppedImg from '../utils/cropImage';
 
+interface SlotPosition {
+  top: string; height: string; left: string; right: string;
+}
+
 interface CameraScreenProps {
   frameSrc: string;
+  slotPositions: { top: SlotPosition; bottom: SlotPosition };
   onPhotosTaken: (photos: string[]) => void;
   onBack: () => void;
 }
 
 const MAX_SHOTS = 2;
 
-export const CameraScreen: React.FC<CameraScreenProps> = ({ frameSrc, onPhotosTaken, onBack }) => {
+export const CameraScreen: React.FC<CameraScreenProps> = ({ frameSrc, slotPositions, onPhotosTaken, onBack }) => {
   const webcamRef = useRef<Webcam>(null);
   const [photos, setPhotos] = useState<string[]>([]);
   const [isFlashing, setIsFlashing] = useState(false);
@@ -115,7 +120,7 @@ export const CameraScreen: React.FC<CameraScreenProps> = ({ frameSrc, onPhotosTa
         {/* Photos / Camera layer sits BEHIND the frame */}
         <div className="strip-export-layer-photos">
           {/* Top Slot */}
-          <div className="photo-slot" style={{ overflow: 'hidden', position: 'relative', borderRadius: '12px' }}>
+          <div style={{ position: 'absolute', top: slotPositions.top.top, height: slotPositions.top.height, left: slotPositions.top.left, right: slotPositions.top.right, overflow: 'hidden', borderRadius: '12px' }}>
             <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
               {photos.length === 0 ? (
                 uploadedImageSrc ? (
@@ -145,7 +150,7 @@ export const CameraScreen: React.FC<CameraScreenProps> = ({ frameSrc, onPhotosTa
           </div>
 
           {/* Bottom Slot */}
-          <div className="photo-slot" style={{ overflow: 'hidden', position: 'relative', borderRadius: '12px' }}>
+          <div style={{ position: 'absolute', top: slotPositions.bottom.top, height: slotPositions.bottom.height, left: slotPositions.bottom.left, right: slotPositions.bottom.right, overflow: 'hidden', borderRadius: '12px' }}>
             <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
               {photos.length === 1 ? (
                 uploadedImageSrc ? (

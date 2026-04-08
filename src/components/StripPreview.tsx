@@ -2,14 +2,19 @@ import React, { useRef } from 'react';
 import html2canvas from 'html2canvas';
 import { Download, RefreshCw, Home } from 'lucide-react';
 
+interface SlotPosition {
+  top: string; height: string; left: string; right: string;
+}
+
 interface StripPreviewProps {
   frameSrc: string;
+  slotPositions: { top: SlotPosition; bottom: SlotPosition };
   photos: string[];
   onReset: () => void;
   onRetake: () => void;
 }
 
-export const StripPreview: React.FC<StripPreviewProps> = ({ frameSrc, photos, onReset, onRetake }) => {
+export const StripPreview: React.FC<StripPreviewProps> = ({ frameSrc, slotPositions, photos, onReset, onRetake }) => {
   const stripRef = useRef<HTMLDivElement>(null);
 
   const handleDownload = async () => {
@@ -25,6 +30,8 @@ export const StripPreview: React.FC<StripPreviewProps> = ({ frameSrc, photos, on
       link.click();
     }
   };
+
+  const slotConfigs = [slotPositions.top, slotPositions.bottom];
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
@@ -44,14 +51,21 @@ export const StripPreview: React.FC<StripPreviewProps> = ({ frameSrc, photos, on
         
         <div className="strip-export-layer-photos">
           {photos.map((photo, index) => (
-            <div key={index} className="photo-slot">
-              <img src={photo} alt={`Captured ${index + 1}`} />
+            <div 
+              key={index} 
+              style={{ 
+                position: 'absolute', 
+                top: slotConfigs[index].top, 
+                height: slotConfigs[index].height, 
+                left: slotConfigs[index].left, 
+                right: slotConfigs[index].right, 
+                overflow: 'hidden', 
+                borderRadius: '12px' 
+              }}
+            >
+              <img src={photo} alt={`Captured ${index + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             </div>
           ))}
-          {/* Fill missing slot to keep layout intact if error happens */}
-          {photos.length < 2 && (
-             <div className="photo-slot" style={{ background: '#000' }}></div>
-          )}
         </div>
       </div>
 
