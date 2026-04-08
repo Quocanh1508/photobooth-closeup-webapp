@@ -224,6 +224,8 @@
   display: flex;
   flex-direction: column;
   z-index: 10;
+  padding: 12% 8% 18% 8%;
+  gap: 2%;
 }
 .strip-export-layer-frame {
   position: relative;

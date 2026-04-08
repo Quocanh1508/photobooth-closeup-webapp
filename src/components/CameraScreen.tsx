@@ -109,7 +109,7 @@ export const CameraScreen: React.FC<CameraScreenProps> = ({ frameSrc, onPhotosTa
       </div>
 
       <div className="camera-wrapper">
-        <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', zIndex: 10 }}>
+        <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', zIndex: 10, padding: '12% 8% 18% 8%', gap: '2%' }}>
           {/* Top Slot */}
           <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
             {photos.length === 0 ? (
