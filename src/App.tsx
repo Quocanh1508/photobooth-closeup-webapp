@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './App.css';
 import { Camera, Palette, Image as ImageIcon, Download, Zap } from 'lucide-react';
 import { CameraScreen } from './components/CameraScreen';
