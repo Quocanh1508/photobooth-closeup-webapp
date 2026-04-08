@@ -115,11 +115,11 @@ export const CameraScreen: React.FC<CameraScreenProps> = ({ frameSrc, onPhotosTa
         {/* Photos / Camera layer sits BEHIND the frame */}
         <div className="strip-export-layer-photos">
           {/* Top Slot */}
-          <div className="photo-slot">
-            {photos.length === 0 ? (
-              uploadedImageSrc ? (
-                 <div style={{ position: 'absolute', inset: 0 }}>
-                   <Cropper
+          <div className="photo-slot" style={{ overflow: 'hidden', position: 'relative', borderRadius: '12px' }}>
+            <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+              {photos.length === 0 ? (
+                uploadedImageSrc ? (
+                  <Cropper
                     image={uploadedImageSrc}
                     crop={crop}
                     zoom={zoom}
@@ -127,29 +127,29 @@ export const CameraScreen: React.FC<CameraScreenProps> = ({ frameSrc, onPhotosTa
                     onCropChange={setCrop}
                     onCropComplete={onCropComplete}
                     onZoomChange={setZoom}
-                   />
-                 </div>
+                  />
+                ) : (
+                  <Webcam
+                    audio={false}
+                    ref={webcamRef}
+                    mirrored={true}
+                    screenshotFormat="image/jpeg"
+                    videoConstraints={{ width: 720, height: 1080, facingMode: "user" }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  />
+                )
               ) : (
-                <Webcam
-                  audio={false}
-                  ref={webcamRef}
-                  mirrored={true}
-                  screenshotFormat="image/jpeg"
-                  videoConstraints={{ width: 720, height: 1080, facingMode: "user" }}
-                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-              )
-            ) : (
-              <img src={photos[0]} alt="Shot 1" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-            )}
+                <img src={photos[0]} alt="Shot 1" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              )}
+            </div>
           </div>
 
           {/* Bottom Slot */}
-          <div className="photo-slot">
-            {photos.length === 1 ? (
-              uploadedImageSrc ? (
-                 <div style={{ position: 'absolute', inset: 0 }}>
-                   <Cropper
+          <div className="photo-slot" style={{ overflow: 'hidden', position: 'relative', borderRadius: '12px' }}>
+            <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+              {photos.length === 1 ? (
+                uploadedImageSrc ? (
+                  <Cropper
                     image={uploadedImageSrc}
                     crop={crop}
                     zoom={zoom}
@@ -157,21 +157,21 @@ export const CameraScreen: React.FC<CameraScreenProps> = ({ frameSrc, onPhotosTa
                     onCropChange={setCrop}
                     onCropComplete={onCropComplete}
                     onZoomChange={setZoom}
-                   />
-                 </div>
-              ) : (
-                <Webcam
-                  audio={false}
-                  ref={webcamRef}
-                  mirrored={true}
-                  screenshotFormat="image/jpeg"
-                  videoConstraints={{ width: 720, height: 1080, facingMode: "user" }}
-                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-              )
-            ) : photos.length > 1 ? (
-              <img src={photos[1]} alt="Shot 2" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-            ) : null}
+                  />
+                ) : (
+                  <Webcam
+                    audio={false}
+                    ref={webcamRef}
+                    mirrored={true}
+                    screenshotFormat="image/jpeg"
+                    videoConstraints={{ width: 720, height: 1080, facingMode: "user" }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  />
+                )
+              ) : photos.length > 1 ? (
+                <img src={photos[1]} alt="Shot 2" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              ) : null}
+            </div>
           </div>
         </div>
 
