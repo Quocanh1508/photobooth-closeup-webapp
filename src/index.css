@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700;800;900&display=swap');
+
+:root {
+  font-family: 'Quicksand', system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-weight: 600;
+
+  color-scheme: light dark;
+  color: #fff;
+  background-color: #0b61f2;
+
+  --theme-blue-dark: #0052D4;
+  --theme-blue: #4364F7;
+  --theme-blue-light: #6FB1FC;
+  --theme-teal: #12a592;
+  
+  --gradient-bg: linear-gradient(180deg, var(--theme-blue-dark) 0%, var(--theme-blue) 40%, var(--theme-teal) 100%);
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.25);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--gradient-bg);
+  background-attachment: fixed;
+  overflow-x: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Paper stars aesthetic decorations */
+.star {
+  position: fixed;
+  color: #fbdb4a;
+  z-index: 0;
+  animation: float 6s infinite ease-in-out alternate;
+  pointer-events: none;
+}
+.star-1 { top: 10%; right: 10%; font-size: 2.5rem; }
+.star-2 { top: 20%; left: 5%; font-size: 1.5rem; animation-duration: 8s; color: rgba(255,255,255,0.7); }
+.star-3 { bottom: 10%; left: 10%; font-size: 2rem; animation-duration: 7s; color: #80deea; }
+.star-4 { bottom: 20%; right: 5%; font-size: 1.2rem; animation-duration: 9s; color: rgba(255,255,255,0.5); }
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-20px) rotate(15deg); }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  html {
+    font-size: 14px;
+  }
+}
