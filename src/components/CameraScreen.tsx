@@ -108,10 +108,14 @@ export const CameraScreen: React.FC<CameraScreenProps> = ({ frameSrc, onPhotosTa
         </div>
       </div>
 
-      <div className="camera-wrapper">
-        <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', zIndex: 10, padding: '11% 7% 22% 7%', gap: '3%' }}>
+      <div className="strip-export-container">
+        {/* Frame image drives the container height — works on ALL devices */}
+        <img src={frameSrc} className="strip-export-layer-frame" alt="Frame Overlay" style={{ position: 'relative', zIndex: 20, pointerEvents: 'none', width: '100%', display: 'block' }} />
+
+        {/* Photos / Camera layer sits BEHIND the frame */}
+        <div className="strip-export-layer-photos">
           {/* Top Slot */}
-          <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+          <div className="photo-slot">
             {photos.length === 0 ? (
               uploadedImageSrc ? (
                  <div style={{ position: 'absolute', inset: 0 }}>
@@ -132,16 +136,16 @@ export const CameraScreen: React.FC<CameraScreenProps> = ({ frameSrc, onPhotosTa
                   mirrored={true}
                   screenshotFormat="image/jpeg"
                   videoConstraints={{ width: 720, height: 1080, facingMode: "user" }}
-                  className="camera-feed"
+                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               )
             ) : (
-              <img src={photos[0]} alt="Shot 1" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src={photos[0]} alt="Shot 1" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
             )}
           </div>
 
           {/* Bottom Slot */}
-          <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+          <div className="photo-slot">
             {photos.length === 1 ? (
               uploadedImageSrc ? (
                  <div style={{ position: 'absolute', inset: 0 }}>
@@ -162,22 +166,19 @@ export const CameraScreen: React.FC<CameraScreenProps> = ({ frameSrc, onPhotosTa
                   mirrored={true}
                   screenshotFormat="image/jpeg"
                   videoConstraints={{ width: 720, height: 1080, facingMode: "user" }}
-                  className="camera-feed"
+                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               )
             ) : photos.length > 1 ? (
-              <img src={photos[1]} alt="Shot 2" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src={photos[1]} alt="Shot 2" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
             ) : null}
           </div>
         </div>
-        
-        {/* Frame explicitly overlaid on top so they know how to pose */}
-        <img src={frameSrc} className="camera-frame-overlay" alt="Frame Overlay" />
 
         <AnimatePresence>
           {isFlashing && (
              <motion.div 
-               className="shutter"
+               style={{ position: 'absolute', inset: 0, background: 'white', zIndex: 50 }}
                initial={{ opacity: 1 }}
                animate={{ opacity: 0 }}
                exit={{ opacity: 0 }}
@@ -209,7 +210,7 @@ export const CameraScreen: React.FC<CameraScreenProps> = ({ frameSrc, onPhotosTa
           )}
         </AnimatePresence>
 
-        {/* Cropper Slider Layer ensures it sits ABOVE the frame layer so touch events work inside the slot! */}
+        {/* Cropper Slider Layer */}
         {uploadedImageSrc && (
           <div style={{ position: 'absolute', bottom: '1rem', left: '1rem', right: '1rem', zIndex: 40, display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             <span style={{background: 'rgba(0,0,0,0.5)', padding: '2px 8px', borderRadius: '4px'}}>Zoom</span>
