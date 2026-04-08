@@ -25,8 +25,8 @@ const FRAMES: FrameConfig[] = [
     // Frame 1 - "Tự tin mọi lúc" text at TOP, closeup logo at BOTTOM
     src: '/frames/Đã xóa nền - Frame 1.png',
     slots: {
-      top: { top: '11%', height: '30%', left: '7%', right: '7%' },
-      bottom: { top: '49%', height: '30%', left: '7%', right: '7%' },
+      top: { top: '11%', height: '40%', left: '7%', right: '7%' },
+      bottom: { top: '49%', height: '40%', left: '7%', right: '7%' },
     }
   },
   {
