@@ -33,16 +33,16 @@ const FRAMES: FrameConfig[] = [
     // Frame 2 - green bg, closeup at TOP, "Tự tin mọi lúc" at BOTTOM
     src: '/frames/Đã xóa nền - Frame 2.png',
     slots: {
-      top: { top: '12%', height: '28%', left: '5%', right: '5%' },
-      bottom: { top: '48%', height: '28%', left: '5%', right: '5%' },
+      top: { top: '12%', height: '40%', left: '5%', right: '5%' },
+      bottom: { top: '48%', height: '40%', left: '5%', right: '5%' },
     }
   },
   {
     // Frame 3 - blue border, closeup at TOP, "Tự tin mọi lúc" at BOTTOM
     src: '/frames/Đã xóa nền - Frame 3.png',
     slots: {
-      top: { top: '11%', height: '29%', left: '10%', right: '10%' },
-      bottom: { top: '48%', height: '29%', left: '10%', right: '10%' },
+      top: { top: '11%', height: '40%', left: '10%', right: '10%' },
+      bottom: { top: '48%', height: '40%', left: '10%', right: '10%' },
     }
   }
 ];
