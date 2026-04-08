@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './App.css';
-import { Camera, Palette, Image as ImageIcon, Download, Zap } from 'lucide-react';
+import { Camera, Palette, Image as ImageIcon, Download, Zap, Volume2, VolumeX } from 'lucide-react';
 import { CameraScreen } from './components/CameraScreen';
 import { StripPreview } from './components/StripPreview';
 
@@ -17,6 +17,31 @@ function App() {
   const [appState, setAppState] = useState<AppState>('HOME');
   const [selectedFrame, setSelectedFrame] = useState<string>('');
   const [photos, setPhotos] = useState<string[]>([]);
+
+  // Music state
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.5;
+      audioRef.current.play().then(() => setIsPlaying(true)).catch(() => {
+        console.log("Autoplay blocked. Waiting for user interaction.");
+      });
+    }
+  }, []);
+
+  const toggleMusic = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.current.play();
+        setIsPlaying(true);
+      }
+    }
+  };
   
   const handlePhotosTaken = (capturedPhotos: string[]) => {
     setPhotos(capturedPhotos);
@@ -55,7 +80,12 @@ function App() {
         </div>
       </div>
 
-      <button className="btn-primary" onClick={() => setAppState('FRAME_SELECT')}>
+      <button className="btn-primary" onClick={() => {
+        if (!isPlaying && audioRef.current) {
+          audioRef.current.play().then(() => setIsPlaying(true)).catch(()=> {});
+        }
+        setAppState('FRAME_SELECT');
+      }}>
         Bắt Đầu Ngay
       </button>
 
@@ -99,10 +129,26 @@ function App() {
 
   return (
     <>
-      <div className="star star-1">★</div>
-      <div className="star star-2">★</div>
-      <div className="star star-3">✧</div>
-      <div className="star star-4">✧</div>
+      <div className="meteor meteor-1"></div>
+      <div className="meteor meteor-2"></div>
+      <div className="meteor meteor-3"></div>
+      <div className="meteor meteor-4"></div>
+      <div className="meteor meteor-5"></div>
+      <div className="meteor meteor-6"></div>
+
+      <audio ref={audioRef} src="/bgm.mp3" loop />
+      
+      <button 
+        onClick={toggleMusic} 
+        style={{ 
+          position: 'fixed', top: '1rem', right: '1rem', zIndex: 100, 
+          background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.4)', 
+          backdropFilter: 'blur(10px)', color: 'white', padding: '10px', 
+          borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center'
+        }}
+      >
+        {isPlaying ? <Volume2 size={24} /> : <VolumeX size={24} />}
+      </button>
 
       <div className="app-container">
         {appState === 'HOME' && renderHome()}
