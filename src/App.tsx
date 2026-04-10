@@ -34,7 +34,7 @@ const FRAMES: FrameConfig[] = [
     src: '/frames/Đã xóa nền - Frame 2.png',
     slots: {
       top: { top: '12%', height: '40%', left: '5%', right: '5%' },
-      bottom: { top: '48%', height: '40%', left: '5%', right: '5%' },
+      bottom: { top: '50%', height: '40%', left: '5%', right: '5%' },
     }
   },
   {
