@@ -42,15 +42,15 @@ const FRAMES: FrameConfig[] = [
     src: '/frames/Đã xóa nền - Frame 3.png',
     slots: {
       top: { top: '11%', height: '40%', left: '10%', right: '10%' },
-      bottom: { top: '48%', height: '40%', left: '10%', right: '10%' },
+      bottom: { top: '50%', height: '40%', left: '10%', right: '10%' },
     }
   },
   {
     // Frame 4 - Newly added frame
     src: '/frames/Frame 4.png',
     slots: {
-      top: { top: '11%', height: '40%', left: '5%', right: '5%' },
-      bottom: { top: '50%', height: '40%', left: '5%', right: '5%' },
+      top: { top: '11%', height: '38%', left: '5%', right: '5%' },
+      bottom: { top: '50%', height: '38%', left: '5%', right: '5%' },
     }
   }
 ];
