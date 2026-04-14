@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import './App.css';
-import { Camera, Palette, Image as ImageIcon, Download, Zap, Volume2, VolumeX } from 'lucide-react';
+import { Camera, Palette, Image as ImageIcon, Download, Zap, Volume2, VolumeX, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { CameraScreen } from './components/CameraScreen';
 import { StripPreview } from './components/StripPreview';
 
@@ -61,6 +62,13 @@ function App() {
   const [appState, setAppState] = useState<AppState>('HOME');
   const [selectedFrame, setSelectedFrame] = useState<FrameConfig | null>(null);
   const [photos, setPhotos] = useState<string[]>([]);
+
+  // Ensure a frame is selected by default if nothing is selected
+  useEffect(() => {
+    if (!selectedFrame && FRAMES.length > 0) {
+      setSelectedFrame(FRAMES[0]);
+    }
+  }, []);
 
   // Music state
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -139,37 +147,65 @@ function App() {
     </div>
   );
 
-  const renderFrameSelect = () => (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-      <h2 style={{ fontSize: '2rem', marginBottom: '2rem' }}>Chọn Frame Yêu Thích</h2>
+  const renderFrameSelect = () => {
+    const currentIndex = selectedFrame ? FRAMES.findIndex(f => f.src === selectedFrame.src) : 0;
 
-      <div className="frame-grid">
-        {FRAMES.map((f, i) => (
-          <div
-            key={i}
-            className={`frame-option ${selectedFrame?.src === f.src ? 'selected' : ''}`}
-            onClick={() => setSelectedFrame(f)}
-          >
-            <img src={f.src} alt={`Frame ${i + 1}`} />
+    const nextFrame = () => {
+      const nextIndex = (currentIndex + 1) % FRAMES.length;
+      setSelectedFrame(FRAMES[nextIndex]);
+    };
+
+    const prevFrame = () => {
+      const prevIndex = (currentIndex - 1 + FRAMES.length) % FRAMES.length;
+      setSelectedFrame(FRAMES[prevIndex]);
+    };
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+        <h2 style={{ fontSize: '2rem', marginBottom: '2rem' }}>Chọn Frame Yêu Thích</h2>
+
+        <div className="frame-carousel-wrapper">
+          <button className="carousel-btn prev" onClick={prevFrame}>
+            <ChevronLeft size={32} />
+          </button>
+
+          <div className="frame-carousel-main">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -50 }}
+                transition={{ duration: 0.3 }}
+                className="current-frame-preview"
+              >
+                <img src={FRAMES[currentIndex].src} alt={`Frame ${currentIndex + 1}`} />
+                <div className="frame-badge">Frame {currentIndex + 1} / {FRAMES.length}</div>
+              </motion.div>
+            </AnimatePresence>
           </div>
-        ))}
-      </div>
 
-      <div style={{ marginTop: '3rem', display: 'flex', gap: '1rem' }}>
-        <button className="btn-secondary" onClick={() => setAppState('HOME')}>
-          Trở lại
-        </button>
-        <button
-          className="btn-primary"
-          style={{ width: 'auto', padding: '1rem 3rem' }}
-          disabled={!selectedFrame}
-          onClick={() => setAppState('CAMERA')}
-        >
-          Tiếp tục
-        </button>
+          <button className="carousel-btn next" onClick={nextFrame}>
+            <ChevronRight size={32} />
+          </button>
+        </div>
+
+        <div style={{ marginTop: '3rem', display: 'flex', gap: '1rem' }}>
+          <button className="btn-secondary" onClick={() => setAppState('HOME')}>
+            Trở lại
+          </button>
+          <button
+            className="btn-primary"
+            style={{ width: 'auto', padding: '1rem 3rem' }}
+            disabled={!selectedFrame}
+            onClick={() => setAppState('CAMERA')}
+          >
+            Tiếp tục
+          </button>
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <>
