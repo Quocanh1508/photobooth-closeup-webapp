@@ -49,8 +49,8 @@ const FRAMES: FrameConfig[] = [
     // Frame 4 - Newly added frame
     src: '/frames/Frame 4.png',
     slots: {
-      top: { top: '10%', height: '35%', left: '10%', right: '10%' },
-      bottom: { top: '50%', height: '35%', left: '10%', right: '10%' },
+      top: { top: '11%', height: '40%', left: '5%', right: '5%' },
+      bottom: { top: '50%', height: '40%', left: '5%', right: '5%' },
     }
   }
 ];
